@@ -1,0 +1,87 @@
+@startuml
+class Producto {
+  nombre
+  precioBase
+
+  precio()
+  nombreDeOferta()
+}
+
+class Mueble extends Producto {
+  precio()
+}
+
+class Ganga extends Producto {
+  precio()
+  nombreDeOferta()
+}
+
+class Cupon {
+  descuento
+  fueUsado
+
+  usar()
+  precioDescontado(unPrecio)
+}
+
+class Usuario {
+  nombre
+  dinero
+  puntos
+  carrito
+  cupones
+  nivel
+
+  nivelQueLeCorresponde()
+  agregarAlCarrito(unProducto)
+  tieneEspacioEnElCarrito()
+  checkoutear()
+  cuponesSinUsar()
+  esDeudor()
+  descartarCuponesUsados()
+  actualizarNivel()
+}
+
+class Carrito {
+  agregarProducto(unProducto)
+  precioTotal()
+  precioConCupon(unCupon)
+  estaVacio()
+  tieneMenosDeNProductos(unaCantidad)
+}
+
+interface Nivel {
+  leQuedaEspacioEnCarrito(unCarrito)
+}
+
+object oro {
+  leQuedaEspacioEnCarrito(unCarrito)
+}
+
+object plata {
+  leQuedaEspacioEnCarrito(unCarrito)
+}
+
+object bronze {
+  leQuedaEspacioEnCarrito(unCarrito)
+}
+
+object pdepLibre {
+  penalizarADeudores()
+  usuariosDeudores()
+  limpiarCuponesUsados()
+  nombresDeOfertaDeProductos()
+  actualizarNivelesDeUsuarios()
+}
+
+Nivel <|.. oro
+Nivel <|.. plata
+Nivel <|.. bronze
+
+Carrito <-r- Usuario
+Cupon "*" <-l- Usuario : cupones
+Producto "*" <-r- Carrito : productos
+Nivel <-u- Usuario
+Usuario "*" <-u- pdepLibre : usuarios
+Producto "*" <-u- pdepLibre : productos
+@enduml
