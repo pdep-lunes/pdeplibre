@@ -21,11 +21,14 @@ class Usuario {
 		precioCarrito = self.precioConCupon(precioCarrito)
 		dinero -= precioCarrito
 		puntos += precioCarrito * 0.1
-		
 	}
 	
 	method precioConCupon(precio) {
-		return cupones.anyOne().usar(precio)
+		return self.cuponesNoUsados().anyOne().usar(precio)
+	}
+	
+	method cuponesNoUsados() {
+		return cupones.filter({cupon => !cupon.estaUsado()})
 	}
 	
 	method debeDinero() {
@@ -33,7 +36,7 @@ class Usuario {
 	}
 	
 	method eliminarCuponesUsados() {
-		cupones = cupones.filter({cupon => !cupon.estaUsado()})
+		cupones = self.cuponesNoUsados()
 	}
 	
 	method actualizarNivel() {
